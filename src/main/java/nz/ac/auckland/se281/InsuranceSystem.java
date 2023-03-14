@@ -8,7 +8,12 @@ public class InsuranceSystem {
   }
 
   public void printDatabase() {
-    // TODO: Complete this method.
+    int numProfiles = 0;
+
+    if (numProfiles == 0) {
+      MessageCli.PRINT_DB_POLICY_COUNT.getMessage("0", "s", "."); 
+      MessageCli.PRINT_DB_POLICY_COUNT.printMessage("0", "s", ".");
+    }
   }
 
   public void createNewProfile(String userName, String age) {
