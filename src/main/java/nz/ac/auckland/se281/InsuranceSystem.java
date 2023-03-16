@@ -7,52 +7,47 @@ import nz.ac.auckland.se281.Main.PolicyType;
 public class InsuranceSystem {
 
   // Instance fields
-  // ArrayLists of both userNames and ages (indexes of each userName in userNameList corresponds to the same index of age in ageList)
-  private ArrayList<String> userNameList = new ArrayList<String>();
-  private ArrayList<String> ageList = new ArrayList<String>();
+  private ArrayList<Profile> database = new ArrayList<Profile>();
 
   public InsuranceSystem() {
     // Only this constructor can be used (if you need to initialise fields).
   }
 
+  
   public void printDatabase() {
+    // Prints the Insurance System Database
 
-    if (userNameList.size() == 0) {
+    if (numProfiles() == 0) {
       MessageCli.PRINT_DB_POLICY_COUNT.printMessage("0", "s", ".");
-    }
-
-    if (userNameList.size() == 1) {
-      MessageCli.PRINT_DB_POLICY_COUNT.printMessage("1", "", ":");
-      MessageCli.PRINT_DB_PROFILE_HEADER_MINIMAL.printMessage("1", userNameList.get(0), ageList.get(0));
-    }
-
-    if (userNameList.size() > 1) {
-      MessageCli.PRINT_DB_POLICY_COUNT.printMessage(Integer.toString(userNameList.size()), "s", ":");
-      for (int i = 0; i < userNameList.size(); i++) {
-        MessageCli.PRINT_DB_PROFILE_HEADER_MINIMAL.printMessage(Integer.toString(i + 1), userNameList.get(i), ageList.get(i));
+    } else if (numProfiles() == 1) {
+        MessageCli.PRINT_DB_POLICY_COUNT.printMessage("1", "", ":");
+        MessageCli.PRINT_DB_PROFILE_HEADER_MINIMAL.printMessage("1", getUserNameDatabase(0), getAgeDatabase(0));
+    } else if (numProfiles() > 1) {
+        MessageCli.PRINT_DB_POLICY_COUNT.printMessage(IntToString(numProfiles()), "s", ":");
+        for (int i = 0; i < numProfiles(); i++) {
+          MessageCli.PRINT_DB_PROFILE_HEADER_MINIMAL.printMessage(Integer.toString(i + 1), getUserNameDatabase(i), getAgeDatabase(i));
+        }
       }
     }
-  }
 
   public void createNewProfile(String userName, String age) {
-    // TODO: Complete this method.
-  
-    userName = userName.substring(0,1).toUpperCase() + userName.substring(1).toLowerCase();  
-    int intAge = Integer.parseInt(age);
+    // Creates a new profile and adds to the Insurance System database given the username and age are valid
 
-    Profile newProfile = new Profile(userName, intAge);
-       
-    if (userName.length() < 3) {
+    // Format userName to database convention
+    userName = formatUserName(userName);
+    
+    // Create new Profile
+    Profile newProfile = new Profile(userName, StringToInt(age));
+
+    if (newProfile.isUserNameLongEnough() == false) {
       MessageCli.INVALID_USERNAME_TOO_SHORT.printMessage(userName);
-      // FIX THIS boolean statement
-    } else if (userNameList.contains(userName)) {
-      MessageCli.INVALID_USERNAME_NOT_UNIQUE.printMessage(userName);
-    } else if (intAge <= 0) {
-      MessageCli.INVALID_AGE.printMessage(age, userName);
+    } else if (isUniqueUserName(userName) == false) {
+        MessageCli.INVALID_USERNAME_NOT_UNIQUE.printMessage(userName);
+    } else if (newProfile.isAgeValid() == false) {
+        MessageCli.INVALID_AGE.printMessage(age, userName);
     } else {
-      MessageCli.PROFILE_CREATED.printMessage(userName, age);
-      userNameList.add(userName);
-      ageList.add(age);
+        MessageCli.PROFILE_CREATED.printMessage(userName, age);
+        database.add(newProfile);
     }
   }
 
@@ -71,4 +66,45 @@ public class InsuranceSystem {
   public void createPolicy(PolicyType type, String[] options) {
     // TODO: Complete this method.
   }
+
+  // ****** HELPER METHODS START ******
+
+  // returns number of profiles in database
+  public int numProfiles() {
+    return database.size();
+  }
+
+  public String IntToString(int number) {
+    return Integer.toString(number);
+  }
+
+  public int StringToInt(String number) {
+    return Integer.parseInt(number);
+  }
+
+   // method that formats userName to have the first letter captial and the rest lowercase
+   public String formatUserName(String userName) {
+    return userName = userName.substring(0,1).toUpperCase() + userName.substring(1).toLowerCase();
+  }
+
+  // Returns userName at specific index extracted from database
+  public String getUserNameDatabase(int index) {
+    return database.get(index).getUsername();
+  }
+
+  // Returns age at specific index extracted from database
+  public String getAgeDatabase(int index) {
+    return Integer.toString(database.get(index).getAge());
+  }
+
+  // Check if userName is unique in database
+  public boolean isUniqueUserName(String userName) {
+    for (int i = 0; i < numProfiles(); i++) {
+      if (database.contains(userName)) {
+        return false;
+      }
+    }
+    return true;
+  }
+  // ****** HELPER METHODS END ******
 }
