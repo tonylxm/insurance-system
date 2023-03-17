@@ -33,10 +33,10 @@ public class InsuranceSystem {
   public void createNewProfile(String userName, String age) {
     // Creates a new profile and adds to the Insurance System database given the username and age are valid
 
-    // Format userName to database convention
+    // userName formatted to database convention
     userName = formatUserName(userName);
-    
-    // Create new Profile
+
+     // Create new Profile
     Profile newProfile = new Profile(userName, StringToInt(age));
 
     if (newProfile.isUserNameLongEnough() == false) {
@@ -98,13 +98,15 @@ public class InsuranceSystem {
   }
 
   // Check if userName is unique in database
+  // FIX NOT WORKING PROPERLY
   public boolean isUniqueUserName(String userName) {
     for (int i = 0; i < numProfiles(); i++) {
-      if (database.contains(userName)) {
+      if (getUserNameDatabase(i) == userName) {
         return false;
       }
     }
     return true;
   }
+
   // ****** HELPER METHODS END ******
 }

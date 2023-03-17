@@ -38,7 +38,7 @@ public class Profile {
 
   // method that checks if age is a positive integer (greater or equal to 0)
   public boolean isAgeValid() {
-    if (age <= 0) {
+    if (age < 0) {
       return false;
     }
     return true;

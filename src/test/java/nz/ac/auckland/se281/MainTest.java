@@ -363,16 +363,29 @@ public class MainTest {
 
     @Test
     public void TY_01_your_own_test() throws Exception {
-      // Write your own test here, in the same format as the other tests.
-      runCommands(PRINT_DB);
-      assertContains("");
+      // Check username is unique in database
+      runCommands(CREATE_PROFILE, "George", "21", CREATE_PROFILE, "George", "25", PRINT_DB);
+      assertContains("Usernames must be unique. No profile was created for 'George'.");
+      assertDoesNotContain("Database has 0 profiles", true);
+      assertDoesNotContain("Database has 1 profile", true);
     }
 
     @Test
     public void TY_02_your_own_test() throws Exception {
-      // Write your own test here, in the same format as the other tests.
-      runCommands(PRINT_DB);
-      assertContains("");
+      // Check age is valid positive integer (testing for 0 is valid)
+      runCommands(CREATE_PROFILE, "Gary", "0", PRINT_DB);
+      assertContains("New profile created for Gary with age 0.");
+      assertContains("1: Gary, 0");
+      assertDoesNotContain("Database has 0 profiles", true);
+    }
+
+    @Test
+    public void TY_03_your_own_test() throws Exception {
+      // Check age is valid positive integer (less than 0)
+      runCommands(CREATE_PROFILE, "Ash", "-1", PRINT_DB);
+      assertContains("'-1' is an invalid age, please provide a positive whole number only. No profile was created"
+      + " for Ash.");
+      assertContains("Database has 0 profiles");
     }
   }
 
