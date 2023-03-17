@@ -98,10 +98,11 @@ public class InsuranceSystem {
   }
 
   // Check if userName is unique in database
-  // FIX NOT WORKING PROPERLY
   public boolean isUniqueUserName(String userName) {
+    String currentUserName = userName;
+
     for (int i = 0; i < numProfiles(); i++) {
-      if (getUserNameDatabase(i) == userName) {
+      if (currentUserName.equals(getUserNameDatabase(i))) {
         return false;
       }
     }

@@ -367,7 +367,7 @@ public class MainTest {
       runCommands(CREATE_PROFILE, "George", "21", CREATE_PROFILE, "George", "25", PRINT_DB);
       assertContains("Usernames must be unique. No profile was created for 'George'.");
       assertDoesNotContain("Database has 0 profiles", true);
-      assertDoesNotContain("Database has 1 profile", true);
+      assertDoesNotContain("Database has 2 profiles", true);
     }
 
     @Test
