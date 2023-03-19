@@ -8,12 +8,12 @@ public class Profile {
 
   // Constructor
   public Profile(String userName, int age) {
-	  this.userName = userName;
+	  this.userName = userName.substring(0,1).toUpperCase() + userName.substring(1).toLowerCase(); // formats userName to database convention
 	  this.age = age;
   }
   
   // instance method that gets userName
-  public String getUsername() {
+  public String getUserName() {
 	  return userName;
   }
 
