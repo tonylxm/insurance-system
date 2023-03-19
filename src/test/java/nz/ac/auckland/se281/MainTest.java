@@ -383,8 +383,9 @@ public class MainTest {
     public void TY_03_your_own_test() throws Exception {
       // Check age is valid positive integer (less than 0)
       runCommands(CREATE_PROFILE, "Ash", "-1", PRINT_DB);
-      assertContains("'-1' is an invalid age, please provide a positive whole number only. No profile was created"
-      + " for Ash.");
+      assertContains(
+          "'-1' is an invalid age, please provide a positive whole number only. No profile was"
+              + " created for Ash.");
       assertContains("Database has 0 profiles");
     }
   }
