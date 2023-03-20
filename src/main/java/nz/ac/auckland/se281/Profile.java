@@ -8,9 +8,7 @@ public class Profile {
 
   // Constructor
   public Profile(String userName, int age) {
-    this.userName =
-        userName.substring(0, 1).toUpperCase()
-            + userName.substring(1).toLowerCase(); // formats userName to database convention
+    this.userName = userName.substring(0, 1).toUpperCase() + userName.substring(1).toLowerCase(); // formats userName to database convention
     this.age = age;
   }
 
@@ -40,7 +38,7 @@ public class Profile {
 
   // method that checks if age is a positive integer (greater or equal to 0)
   public boolean isAgeValid() {
-    if (age < 0) {
+    if (age < 0 || age == -0) {
       return false;
     }
     return true;

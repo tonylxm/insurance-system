@@ -1,6 +1,6 @@
 // AUTHOR: Tony Lim
 // DATE STARTED: 14/03/2023
-// DATE LAST MODIFIED: 19/03/2023
+// DATE LAST MODIFIED: 20/03/2023
 
 package nz.ac.auckland.se281;
 
@@ -20,15 +20,15 @@ public class InsuranceSystem {
 
     if (numProfiles() == 0) {
       MessageCli.PRINT_DB_POLICY_COUNT.printMessage("0", "s", ".");
-    } else if (numProfiles() == 1) {
+    } 
+    else if (numProfiles() == 1) {
       MessageCli.PRINT_DB_POLICY_COUNT.printMessage("1", "", ":");
-      MessageCli.PRINT_DB_PROFILE_HEADER_MINIMAL.printMessage(
-          "1", getUserNameDatabase(0), getAgeDatabase(0));
-    } else if (numProfiles() > 1) {
+      MessageCli.PRINT_DB_PROFILE_HEADER_MINIMAL.printMessage("1", getUserNameDatabase(0), getAgeDatabase(0));
+    } 
+    else if (numProfiles() > 1) {
       MessageCli.PRINT_DB_POLICY_COUNT.printMessage(intToString(numProfiles()), "s", ":");
       for (int i = 0; i < numProfiles(); i++) {
-        MessageCli.PRINT_DB_PROFILE_HEADER_MINIMAL.printMessage(
-            Integer.toString(i + 1), getUserNameDatabase(i), getAgeDatabase(i));
+        MessageCli.PRINT_DB_PROFILE_HEADER_MINIMAL.printMessage(Integer.toString(i + 1), getUserNameDatabase(i), getAgeDatabase(i));
       }
     }
   }
@@ -45,11 +45,14 @@ public class InsuranceSystem {
 
     if (newProfile.isUserNameLongEnough() == false) {
       MessageCli.INVALID_USERNAME_TOO_SHORT.printMessage(formattedUserName);
-    } else if (isUniqueUserName(formattedUserName) == false) {
+    } 
+    else if (isUniqueUserName(formattedUserName) == false) {
       MessageCli.INVALID_USERNAME_NOT_UNIQUE.printMessage(formattedUserName);
-    } else if (newProfile.isAgeValid() == false) {
+    } 
+    else if (newProfile.isAgeValid() == false) {
       MessageCli.INVALID_AGE.printMessage(age, formattedUserName);
-    } else {
+    } 
+    else {
       MessageCli.PROFILE_CREATED.printMessage(formattedUserName, age);
       database.add(newProfile);
     }
