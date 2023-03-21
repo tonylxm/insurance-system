@@ -8,21 +8,20 @@ public class Profile {
 
   // Constructor
   public Profile(String userName, int age) {
-    this.userName = userName.substring(0, 1).toUpperCase() + userName.substring(1).toLowerCase(); // formats userName to database convention
+    this.userName =
+        userName.substring(0, 1).toUpperCase()
+            + userName.substring(1).toLowerCase(); // formats userName to database convention
     this.age = age;
   }
 
-  // instance method that gets userName
   public String getUserName() {
     return userName;
   }
 
-  // instance method that gets age as an integer
   public int getAge() {
     return age;
   }
 
-  // instance method that gets age as a String
   public String getStringAge() {
     String stringAge = Integer.toString(age);
     return stringAge;
