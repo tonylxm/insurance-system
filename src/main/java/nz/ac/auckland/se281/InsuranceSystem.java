@@ -1,6 +1,6 @@
 // AUTHOR: Tony Lim
 // DATE STARTED: 14/03/2023
-// DATE LAST MODIFIED: 20/03/2023
+// DATE LAST MODIFIED: 22/03/2023
 
 package nz.ac.auckland.se281;
 
@@ -24,12 +24,12 @@ public class InsuranceSystem {
     } else if (numProfiles() == 1) {
       MessageCli.PRINT_DB_POLICY_COUNT.printMessage("1", "", ":");
       MessageCli.PRINT_DB_PROFILE_HEADER_MINIMAL.printMessage(
-          "1", database.get(0).getUserName(), database.get(0).getStringAge());
+          "1", formatUserName(database.get(0).getUserName()), database.get(0).getStringAge());
     } else if (numProfiles() > 1) {
       MessageCli.PRINT_DB_POLICY_COUNT.printMessage((numProfiles().toString()), "s", ":");
       for (Profile profile : database) {
         MessageCli.PRINT_DB_PROFILE_HEADER_MINIMAL.printMessage(
-            Integer.toString(count), profile.getUserName(), profile.getStringAge());
+            Integer.toString(count), formatUserName(profile.getUserName()), profile.getStringAge());
         count++;
       }
     }
@@ -41,9 +41,9 @@ public class InsuranceSystem {
     // 2) userName is unique across all other userNames in the database
     // 3) age is a positive integer (including 0)
 
-    Profile newProfile = new Profile(userName, Integer.parseInt(age));
     // Formatting the userName: first letter being capatilised with the rest being lowercase.
-    String formattedUserName = newProfile.getUserName();
+    String formattedUserName = formatUserName(userName);
+    Profile newProfile = new Profile(formattedUserName, Integer.parseInt(age));
 
     if (newProfile.isUserNameLongEnough() == false) {
       MessageCli.INVALID_USERNAME_TOO_SHORT.printMessage(formattedUserName);
@@ -58,7 +58,15 @@ public class InsuranceSystem {
   }
 
   public void loadProfile(String userName) {
-    // TODO: Complete this method.
+
+    String formattedUserName = formatUserName(userName);
+
+    // If the userName is in the database, load the profile. Otherwise return an error message.
+    if (!isUniqueUserName(formattedUserName)) {
+      MessageCli.PROFILE_LOADED.printMessage(formattedUserName);
+    } else {
+      MessageCli.NO_PROFILE_FOUND_TO_LOAD.printMessage(formattedUserName);
+    }
   }
 
   public void unloadProfile() {
@@ -76,6 +84,11 @@ public class InsuranceSystem {
   // returns number of profiles in database
   public Integer numProfiles() {
     return database.size();
+  }
+
+  // formats userName to database convention
+  public String formatUserName(String userName) {
+    return userName.substring(0, 1).toUpperCase() + userName.substring(1).toLowerCase();
   }
 
   // Check if userName is unique in ArrayList database
