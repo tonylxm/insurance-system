@@ -388,6 +388,16 @@ public class MainTest {
               + " created for Ash.");
       assertContains("Database has 0 profiles");
     }
+
+    @Test
+    public void TY_04_your_own_test() throws Exception {
+      // Check age is valid positive integer (not decimal)
+      runCommands(CREATE_PROFILE, "Ash", "1.4", PRINT_DB);
+      assertContains(
+          "'1.4' is an invalid age, please provide a positive whole number only. No profile was"
+              + " created for Ash.");
+      assertContains("Database has 0 profiles");
+    }
   }
 
   private static final Object[] CREATE_SOME_CLIENTS =
