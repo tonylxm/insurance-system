@@ -4,10 +4,10 @@ public class Profile {
 
   // Instance fields
   private String userName;
-  private int age;
+  private Integer age;
 
   // Constructor
-  public Profile(String userName, int age) {
+  public Profile(String userName, Integer age) {
     this.userName = userName;
     this.age = age;
   }
@@ -21,8 +21,7 @@ public class Profile {
   }
 
   public String getStringAge() {
-    String stringAge = Integer.toString(age);
-    return stringAge;
+    return age.toString();
   }
 
   // method that checks if userName is greater than 3 characters
@@ -34,7 +33,7 @@ public class Profile {
   }
 
   // method that checks if age is a positive integer (greater or equal to 0)
-  public boolean isAgeValid() {
+  public boolean isAgeGreaterEqualThanZero() {
     if (age < 0) {
       return false;
     }

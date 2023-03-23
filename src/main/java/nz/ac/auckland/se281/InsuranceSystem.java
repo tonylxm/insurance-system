@@ -1,6 +1,6 @@
 // AUTHOR: Tony Lim
 // DATE STARTED: 14/03/2023
-// DATE LAST MODIFIED: 22/03/2023
+// DATE LAST MODIFIED: 23/03/2023
 
 package nz.ac.auckland.se281;
 
@@ -36,24 +36,31 @@ public class InsuranceSystem {
   }
 
   public void createNewProfile(String userName, String age) {
-    // Creates a new profile and adds to the Insurance System database given:
-    // 1) userName is more than 3 characters
-    // 2) userName is unique across all other userNames in the database
-    // 3) age is a positive integer (including 0)
-
     // Formatting the userName: first letter being capatilised with the rest being lowercase.
     String formattedUserName = formatUserName(userName);
-    Profile newProfile = new Profile(formattedUserName, Integer.parseInt(age));
 
-    if (newProfile.isUserNameLongEnough() == false) {
-      MessageCli.INVALID_USERNAME_TOO_SHORT.printMessage(formattedUserName);
-    } else if (isUniqueUserName(formattedUserName) == false) {
-      MessageCli.INVALID_USERNAME_NOT_UNIQUE.printMessage(formattedUserName);
-    } else if (newProfile.isAgeValid() == false) {
+    // Try parse input age, otherwise throw an error message that age is invalid.
+    try {
+      Integer parsedAge = Integer.parseInt(age);
+      Profile newProfile = new Profile(formattedUserName, parsedAge);
+      String formattedAge = parsedAge.toString();
+
+      // Creates a new profile and adds to the Insurance System database given:
+      // 1) userName is more than 3 characters
+      // 2) userName is unique across all other userNames in the database
+      // 3) age is a positive integer (including 0)
+      if (newProfile.isUserNameLongEnough() == false) {
+        MessageCli.INVALID_USERNAME_TOO_SHORT.printMessage(formattedUserName);
+      } else if (isUniqueUserName(formattedUserName) == false) {
+        MessageCli.INVALID_USERNAME_NOT_UNIQUE.printMessage(formattedUserName);
+      } else if (newProfile.isAgeGreaterEqualThanZero() == false) {
+        MessageCli.INVALID_AGE.printMessage(formattedAge, formattedUserName);
+      } else {
+        MessageCli.PROFILE_CREATED.printMessage(formattedUserName, formattedAge);
+        database.add(newProfile);
+      }
+    } catch (Exception e) {
       MessageCli.INVALID_AGE.printMessage(age, formattedUserName);
-    } else {
-      MessageCli.PROFILE_CREATED.printMessage(formattedUserName, age);
-      database.add(newProfile);
     }
   }
 
