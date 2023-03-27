@@ -16,7 +16,8 @@ public class InsuranceSystem {
 
   public void printDatabase() {
     // Prints all profiles created in that point in time when invoked. Different arguments are
-    // passed into the print statment depending on the number of Profiles (0, 1 or greater than 1).
+    // passed into the print statment depending on the number of Profiles (0, 1 or greater than
+    // 1).
     int count = 1;
 
     if (numProfiles() == 0) {
@@ -28,9 +29,21 @@ public class InsuranceSystem {
     } else if (numProfiles() > 1) {
       MessageCli.PRINT_DB_POLICY_COUNT.printMessage((numProfiles().toString()), "s", ":");
       for (Profile profile : database) {
-        MessageCli.PRINT_DB_PROFILE_HEADER_MINIMAL.printMessage(
-            Integer.toString(count), formatUserName(profile.getUserName()), profile.getStringAge());
-        count++;
+        // If the profile is loading, print *** to indicate the profile is loaded.
+        if (profile.getIsLoading()) {
+          MessageCli.PRINT_DB_PROFILE_HEADER_SHORT.printMessage(
+              "*** ",
+              Integer.toString(count),
+              formatUserName(profile.getUserName()),
+              profile.getStringAge());
+          count++;
+        } else {
+          MessageCli.PRINT_DB_PROFILE_HEADER_MINIMAL.printMessage(
+              Integer.toString(count),
+              formatUserName(profile.getUserName()),
+              profile.getStringAge());
+          count++;
+        }
       }
     }
   }
@@ -51,7 +64,7 @@ public class InsuranceSystem {
       // 3) age is a positive integer (including 0)
       if (newProfile.isUserNameLongEnough() == false) {
         MessageCli.INVALID_USERNAME_TOO_SHORT.printMessage(formattedUserName);
-      } else if (isUniqueUserName(formattedUserName) == false) {
+      } else if (isUserNameUnique(formattedUserName) == false) {
         MessageCli.INVALID_USERNAME_NOT_UNIQUE.printMessage(formattedUserName);
       } else if (newProfile.isAgeGreaterEqualThanZero() == false) {
         MessageCli.INVALID_AGE.printMessage(formattedAge, formattedUserName);
@@ -69,7 +82,8 @@ public class InsuranceSystem {
     String formattedUserName = formatUserName(userName);
 
     // If the userName is in the database, load the profile. Otherwise return an error message.
-    if (!isUniqueUserName(formattedUserName)) {
+    if (!isUserNameUnique(formattedUserName)) {
+      getProfileGivenUserName(formattedUserName).setIsLoadingToTrue();
       MessageCli.PROFILE_LOADED.printMessage(formattedUserName);
     } else {
       MessageCli.NO_PROFILE_FOUND_TO_LOAD.printMessage(formattedUserName);
@@ -99,7 +113,7 @@ public class InsuranceSystem {
   }
 
   // Check if userName is unique in ArrayList database
-  public boolean isUniqueUserName(String userName) {
+  public boolean isUserNameUnique(String userName) {
     String currentUserName = userName;
 
     for (int i = 0; i < numProfiles(); i++) {
@@ -108,5 +122,17 @@ public class InsuranceSystem {
       }
     }
     return true;
+  }
+
+  // Must check if userName is in database FIRST, otherwise will return null
+  public Profile getProfileGivenUserName(String userName) {
+    String formattedUserName = formatUserName(userName);
+
+    for (int i = 0; i < numProfiles(); i++) {
+      if (formattedUserName.equals(database.get(i).getUserName())) {
+        return database.get(i);
+      }
+    }
+    return null;
   }
 }

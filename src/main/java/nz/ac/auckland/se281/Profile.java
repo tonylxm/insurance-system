@@ -5,11 +5,13 @@ public class Profile {
   // Instance fields
   private String userName;
   private Integer age;
+  private boolean isLoading;
 
   // Constructor
   public Profile(String userName, Integer age) {
     this.userName = userName;
     this.age = age;
+    this.isLoading = false;
   }
 
   public String getUserName() {
@@ -38,5 +40,15 @@ public class Profile {
       return false;
     }
     return true;
+  }
+
+  // method that checks the value of isLoading
+  public boolean getIsLoading() {
+    return isLoading;
+  }
+
+  // method that returns if profile is being loaded
+  public void setIsLoadingToTrue() {
+    isLoading = true;
   }
 }
