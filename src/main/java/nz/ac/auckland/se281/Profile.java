@@ -48,7 +48,11 @@ public class Profile {
   }
 
   // method that returns if profile is being loaded
-  public void setIsLoadingToTrue() {
-    isLoading = true;
+  public void setIsLoading(boolean value) {
+    if (value) {
+      isLoading = true;
+    } else if (!value) {
+      isLoading = false;
+    }
   }
 }

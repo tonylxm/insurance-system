@@ -465,6 +465,7 @@ public class MainTest {
       super(Main.class);
     }
 
+    // MY TASK 1 TESTS
     @Test
     public void TY_01_your_own_test() throws Exception {
       // Check username is unique in database
@@ -502,6 +503,10 @@ public class MainTest {
               + " created for Ash.");
       assertContains("Database has 0 profiles");
     }
+
+    // MY TASK 2 TESTS
+
+    // Check createProfile() returns error message when a profile is loaded
   }
 
   private static final Object[] CREATE_SOME_CLIENTS =
