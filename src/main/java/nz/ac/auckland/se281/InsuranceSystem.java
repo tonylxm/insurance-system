@@ -97,7 +97,7 @@ public class InsuranceSystem {
     String formattedUserName = formatUserName(userName);
 
     // If the userName is in the database, load the profile. Otherwise return an error message.
-    if (!(isUserNameUnique(formattedUserName))) {
+    if (!isUserNameUnique(formattedUserName)) {
       unloadProfile();
       getProfileGivenUserName(formattedUserName).setIsLoading(true);
       MessageCli.PROFILE_LOADED.printMessage(formattedUserName);
@@ -106,17 +106,30 @@ public class InsuranceSystem {
     }
   }
 
+  // FIX: remove 'no profile loaded' message  displayed if there is no profile before loaded
   public void unloadProfile() {
-    if (isAnyProfileLoaded()) {
+    if (!isAnyProfileLoaded()) {
+      MessageCli.NO_PROFILE_LOADED.printMessage();
+    } else {
       MessageCli.PROFILE_UNLOADED.printMessage(getLoadedProfile().getUserName());
       getLoadedProfile().setIsLoading(false);
-    } else {
-      MessageCli.NO_PROFILE_LOADED.printMessage();
     }
   }
 
   public void deleteProfile(String userName) {
-    // TODO: Complete this method.
+    String formattedUserName = formatUserName(userName);
+
+    // If the userName is in the database, the profile is not loading, delete the profile.
+    if (!isUserNameUnique(formattedUserName)) {
+      if (getProfileGivenUserName(formattedUserName).getIsLoading()) {
+        MessageCli.CANNOT_DELETE_PROFILE_WHILE_LOADED.printMessage(formattedUserName);
+      } else {
+        database.remove(getProfileGivenUserName(formattedUserName));
+        MessageCli.PROFILE_DELETED.printMessage(formattedUserName);
+      }
+    } else {
+      MessageCli.NO_PROFILE_FOUND_TO_DELETE.printMessage(formattedUserName);
+    }
   }
 
   public void createPolicy(PolicyType type, String[] options) {
