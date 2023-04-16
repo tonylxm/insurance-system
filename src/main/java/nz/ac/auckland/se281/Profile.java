@@ -1,7 +1,6 @@
 package nz.ac.auckland.se281;
 
 public class Profile {
-
   // Instance fields
   private String userName;
   private Integer age;

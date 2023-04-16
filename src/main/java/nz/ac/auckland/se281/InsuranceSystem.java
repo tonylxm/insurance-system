@@ -133,7 +133,31 @@ public class InsuranceSystem {
   }
 
   public void createPolicy(PolicyType type, String[] options) {
-    // TODO: Complete this method.
+    if (!isAnyProfileLoaded()) {
+      MessageCli.NO_PROFILE_FOUND_TO_CREATE_POLICY.printMessage();
+    }
+
+    int sumInsured = Integer.parseInt(options[0]);
+
+    switch (type) {
+      case HOME:
+        boolean isRental = Boolean.parseBoolean(options[2]);
+        HomePolicy newHomePolicy = new HomePolicy(sumInsured, options[1], isRental);
+        break;
+
+      case CAR:
+        boolean isBrokenDown = false;
+        if (options[3].contains("y")) {
+          isBrokenDown = true;
+        }
+
+        CarPolicy newCarPolicy = new CarPolicy(sumInsured, options[1], options[2], isBrokenDown);
+        break;
+
+      case LIFE:
+        LifePolicy newLifePolicy = new LifePolicy(sumInsured);
+        break;
+    }
   }
 
   // ****** HELPER METHODS START ******
