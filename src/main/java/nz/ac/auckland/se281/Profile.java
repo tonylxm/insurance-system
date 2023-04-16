@@ -5,12 +5,16 @@ public class Profile {
   private String userName;
   private Integer age;
   private boolean isLoading;
+  private boolean hasLifePolicy;
+  private Integer numPolicies;
 
   // Constructor
   public Profile(String userName, Integer age) {
     this.userName = userName;
     this.age = age;
     this.isLoading = false;
+    this.hasLifePolicy = false;
+    this.numPolicies = 0;
   }
 
   public String getUserName() {
@@ -53,5 +57,25 @@ public class Profile {
     } else if (!value) {
       isLoading = false;
     }
+  }
+
+  public boolean getHasLifePolicy() {
+    return hasLifePolicy;
+  }
+
+  public void setHasLifePolicy() {
+    hasLifePolicy = true;
+  }
+
+  public int getNumPolicies() {
+    return numPolicies;
+  }
+
+  public String getStringNumPolicies() {
+    return numPolicies.toString();
+  }
+
+  public void incrementNumPolicies() {
+    numPolicies++;
   }
 }

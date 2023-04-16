@@ -24,35 +24,50 @@ public class InsuranceSystem {
       case 0:
         MessageCli.PRINT_DB_POLICY_COUNT.printMessage("0", "s", ".");
         break;
+
       case 1:
         MessageCli.PRINT_DB_POLICY_COUNT.printMessage("1", "", ":");
+        // If the profile is loading, print *** to indicate the profile is loaded.
         if (database.get(0).getIsLoading()) {
-          MessageCli.PRINT_DB_PROFILE_HEADER_SHORT.printMessage(
+          MessageCli.PRINT_DB_PROFILE_HEADER_MEDIUM.printMessage(
               "*** ",
               Integer.toString(count),
               formatUserName(database.get(0).getUserName()),
-              database.get(0).getStringAge());
+              database.get(0).getStringAge(),
+              database.get(0).getStringNumPolicies(),
+              getArguementBasedOnNumProfiles(0));
         } else {
-          MessageCli.PRINT_DB_PROFILE_HEADER_MINIMAL.printMessage(
-              "1", formatUserName(database.get(0).getUserName()), database.get(0).getStringAge());
+          MessageCli.PRINT_DB_PROFILE_HEADER_MEDIUM.printMessage(
+              "",
+              "1",
+              formatUserName(database.get(0).getUserName()),
+              database.get(0).getStringAge(),
+              database.get(0).getStringNumPolicies(),
+              getArguementBasedOnNumProfiles(0));
         }
         break;
+
       default:
         MessageCli.PRINT_DB_POLICY_COUNT.printMessage((numProfiles().toString()), "s", ":");
         for (Profile profile : database) {
           // If the profile is loading, print *** to indicate the profile is loaded.
           if (profile.getIsLoading()) {
-            MessageCli.PRINT_DB_PROFILE_HEADER_SHORT.printMessage(
+            MessageCli.PRINT_DB_PROFILE_HEADER_MEDIUM.printMessage(
                 "*** ",
                 Integer.toString(count),
                 formatUserName(profile.getUserName()),
-                profile.getStringAge());
+                profile.getStringAge(),
+                profile.getStringNumPolicies(),
+                getArguementBasedOnNumProfiles(count - 1));
             count++;
           } else {
-            MessageCli.PRINT_DB_PROFILE_HEADER_MINIMAL.printMessage(
+            MessageCli.PRINT_DB_PROFILE_HEADER_MEDIUM.printMessage(
+                "",
                 Integer.toString(count),
                 formatUserName(profile.getUserName()),
-                profile.getStringAge());
+                profile.getStringAge(),
+                profile.getStringNumPolicies(),
+                getArguementBasedOnNumProfiles(count - 1));
             count++;
           }
         }
@@ -106,7 +121,7 @@ public class InsuranceSystem {
     }
   }
 
-  // FIX: remove 'no profile loaded' message  displayed if there is no profile before loaded
+  // FIX: remove 'no profile loaded' message displayed if there is no profile before loaded
   public void unloadProfile() {
     if (!isAnyProfileLoaded()) {
       MessageCli.NO_PROFILE_LOADED.printMessage();
@@ -138,11 +153,16 @@ public class InsuranceSystem {
     }
 
     int sumInsured = Integer.parseInt(options[0]);
+    int loadedProfileAge = getLoadedProfile().getAge();
+    String loadedProfileUserName = getLoadedProfile().getUserName();
 
     switch (type) {
       case HOME:
         boolean isRental = Boolean.parseBoolean(options[2]);
+
         HomePolicy newHomePolicy = new HomePolicy(sumInsured, options[1], isRental);
+        getLoadedProfile().incrementNumPolicies();
+        MessageCli.NEW_POLICY_CREATED.printMessage("home", loadedProfileUserName);
         break;
 
       case CAR:
@@ -151,11 +171,24 @@ public class InsuranceSystem {
           isBrokenDown = true;
         }
 
-        CarPolicy newCarPolicy = new CarPolicy(sumInsured, options[1], options[2], isBrokenDown);
+        CarPolicy newCarPolicy =
+            new CarPolicy(sumInsured, options[1], options[2], isBrokenDown, loadedProfileAge);
+        getLoadedProfile().incrementNumPolicies();
+        MessageCli.NEW_POLICY_CREATED.printMessage("car", loadedProfileUserName);
         break;
 
       case LIFE:
-        LifePolicy newLifePolicy = new LifePolicy(sumInsured);
+        if (loadedProfileAge > 100) {
+          MessageCli.OVER_AGE_LIMIT_LIFE_POLICY.printMessage(loadedProfileUserName);
+        }
+        if (getLoadedProfile().getHasLifePolicy()) {
+          MessageCli.ALREADY_HAS_LIFE_POLICY.printMessage(loadedProfileUserName);
+        }
+
+        LifePolicy newLifePolicy = new LifePolicy(sumInsured, loadedProfileAge);
+        getLoadedProfile().incrementNumPolicies();
+        getLoadedProfile().setHasLifePolicy();
+        MessageCli.NEW_POLICY_CREATED.printMessage("life", loadedProfileUserName);
         break;
     }
   }
@@ -212,6 +245,14 @@ public class InsuranceSystem {
       }
     }
     return null;
+  }
+
+  public String getArguementBasedOnNumProfiles(int index) {
+    if (database.get(index).getNumPolicies() == 0 || database.get(index).getNumPolicies() > 1) {
+      return "ies";
+    } else {
+      return "y";
+    }
   }
 
   // ****** HELPER METHODS END ******

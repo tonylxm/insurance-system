@@ -8,5 +8,5 @@ public abstract class Policy {
     this.sumInsured = sumInsured;
   }
 
-  public int getAgefromLoadedProfile() {}
+  public abstract void calculateBasePremium();
 }

@@ -6,11 +6,14 @@ public class HomePolicy extends Policy {
 
   public HomePolicy(int sumInsured, String address, boolean isRental) {
     super(sumInsured);
+  }
 
+  @Override
+  public void calculateBasePremium() {
     if (isRental) {
-      basePremium = (int) 0.02 * sumInsured;
+      basePremium = (int) (0.02 * (double) sumInsured);
     } else {
-      basePremium = (int) 0.01 * sumInsured;
+      basePremium = (int) (0.01 * (double) sumInsured);
     }
   }
 }
