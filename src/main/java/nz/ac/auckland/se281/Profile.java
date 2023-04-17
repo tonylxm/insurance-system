@@ -1,12 +1,15 @@
 package nz.ac.auckland.se281;
 
+import java.util.ArrayList;
+
 public class Profile {
   // Instance fields
   private String userName;
   private Integer age;
   private boolean isLoading;
   private boolean hasLifePolicy;
-  private Integer numPolicies;
+  private ArrayList<Policy> policyDatabase;
+  private Integer totalToPay;
 
   // Constructor
   public Profile(String userName, Integer age) {
@@ -14,7 +17,8 @@ public class Profile {
     this.age = age;
     this.isLoading = false;
     this.hasLifePolicy = false;
-    this.numPolicies = 0;
+    this.policyDatabase = new ArrayList<Policy>();
+    this.totalToPay = 0;
   }
 
   public String getUserName() {
@@ -45,7 +49,6 @@ public class Profile {
     return true;
   }
 
-  // method that checks the value of isLoading
   public boolean getIsLoading() {
     return isLoading;
   }
@@ -68,14 +71,37 @@ public class Profile {
   }
 
   public int getNumPolicies() {
-    return numPolicies;
+    return policyDatabase.size();
   }
 
   public String getStringNumPolicies() {
+    Integer numPolicies = policyDatabase.size();
     return numPolicies.toString();
   }
 
-  public void incrementNumPolicies() {
-    numPolicies++;
+  // adds new created policy to policyDatabase
+  public void addPolicy(Policy newPolicy) {
+    policyDatabase.add(newPolicy);
+  }
+
+  public void printPolicyDatabase() {
+    for (Policy policy : policyDatabase) {
+      policy.printPolicyDetails();
+    }
+  }
+
+  public void calculateAllDiscountedPremiums(int numPolicies) {
+    for (Policy policy : policyDatabase) {
+      policy.calculateDiscountPremium(numPolicies);
+    }
+  }
+
+  public String getTotalToPay() {
+    // calculate the total amount to pay by adding up all the discounted premiums on all policies
+    // for that account
+    for (Policy policy : policyDatabase) {
+      totalToPay += policy.getDiscountedPremium();
+    }
+    return totalToPay.toString();
   }
 }

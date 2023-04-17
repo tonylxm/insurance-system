@@ -1,15 +1,23 @@
 package nz.ac.auckland.se281;
 
 public class LifePolicy extends Policy {
-  private int loadedProfileAge;
 
   public LifePolicy(int sumInsured, int loadedProfileAge) {
     super(sumInsured);
-    loadedProfileAge = this.loadedProfileAge;
+
+    // calculate basePremium based on client's age
+    basePremium = (int) (((1 + (0.01 * (double) loadedProfileAge)) / 100) * sumInsured);
   }
 
   @Override
-  public void calculateBasePremium() {
-    basePremium = (int) (1 + ((double) loadedProfileAge / 100));
+  public void printPolicyDetails() {
+    System.out.println(
+        "Life Policy (Sum Insured: $"
+            + sumInsured
+            + ", Premium: $"
+            + basePremium
+            + " -> $"
+            + discountedPremium
+            + ")");
   }
 }

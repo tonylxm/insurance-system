@@ -3,8 +3,6 @@ package nz.ac.auckland.se281;
 public class CarPolicy extends Policy {
   private String makeAndModel;
   private String licensePlate;
-  private boolean isBrokenDown;
-  private int loadedProfileAge;
 
   public CarPolicy(
       int sumInsured,
@@ -13,14 +11,10 @@ public class CarPolicy extends Policy {
       boolean isBrokenDown,
       int loadedProfileAge) {
     super(sumInsured);
-    makeAndModel = this.makeAndModel;
-    licensePlate = this.licensePlate;
-    loadedProfileAge = this.loadedProfileAge;
-  }
+    this.makeAndModel = makeAndModel;
+    this.licensePlate = licensePlate;
 
-  @Override
-  public void calculateBasePremium() {
-
+    // calculate basePremium based on client's age
     if (loadedProfileAge < 25) {
       basePremium = (int) (0.15 * (double) sumInsured);
     } else if (loadedProfileAge >= 25) {
@@ -29,5 +23,19 @@ public class CarPolicy extends Policy {
     if (isBrokenDown) {
       basePremium += 80;
     }
+  }
+
+  @Override
+  public void printPolicyDetails() {
+    System.out.println(
+        "Car Policy ("
+            + makeAndModel
+            + ", Sum Insured: $"
+            + sumInsured
+            + ", Premium: $"
+            + basePremium
+            + " -> $"
+            + discountedPremium
+            + ")");
   }
 }
