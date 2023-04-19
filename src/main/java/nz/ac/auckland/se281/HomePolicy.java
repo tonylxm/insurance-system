@@ -15,6 +15,8 @@ public class HomePolicy extends Policy {
     }
   }
 
+  // Since different policies have different details and different amount of details to print,
+  // override the abstract method printPolicyDetails()
   @Override
   public void printPolicyDetails() {
     System.out.println(
@@ -23,9 +25,9 @@ public class HomePolicy extends Policy {
             + ", Sum Insured: $"
             + sumInsured
             + ", Premium: $"
-            + this.basePremium
+            + basePremium
             + " -> $"
-            + this.discountedPremium
+            + discountedPremium
             + ")");
   }
 }

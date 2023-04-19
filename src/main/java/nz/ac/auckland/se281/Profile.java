@@ -3,7 +3,6 @@ package nz.ac.auckland.se281;
 import java.util.ArrayList;
 
 public class Profile {
-  // Instance fields
   private String userName;
   private Integer age;
   private boolean isLoading;
@@ -99,6 +98,8 @@ public class Profile {
   public String getTotalToPay() {
     // calculate the total amount to pay by adding up all the discounted premiums on all policies
     // for that account
+    totalToPay = 0;
+    
     for (Policy policy : policyDatabase) {
       totalToPay += policy.getDiscountedPremium();
     }

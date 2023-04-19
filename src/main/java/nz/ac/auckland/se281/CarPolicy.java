@@ -25,6 +25,8 @@ public class CarPolicy extends Policy {
     }
   }
 
+  // Since different policies have different details and different amount of details to print,
+  // override the abstract method printPolicyDetails()
   @Override
   public void printPolicyDetails() {
     System.out.println(

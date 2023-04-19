@@ -9,6 +9,8 @@ public class LifePolicy extends Policy {
     basePremium = (int) (((1 + (0.01 * (double) loadedProfileAge)) / 100) * sumInsured);
   }
 
+  // Since different policies have different details and different amount of details to print,
+  // override the abstract method printPolicyDetails()
   @Override
   public void printPolicyDetails() {
     System.out.println(

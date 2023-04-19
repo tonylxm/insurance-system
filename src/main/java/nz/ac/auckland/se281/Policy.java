@@ -17,12 +17,16 @@ public abstract class Policy {
     return discountedPremium;
   }
 
+  // 2 policies on 1 account = 10% discount on premiums for both the 2 polciies (total 10% discount
+  // for totalToPay).
+  // 3 or more policies on 1 account = 20% discount on premiums for the 3 or more polciies (total
+  // 20% discount for totalToPay).
   public void calculateDiscountPremium(int numPolicies) {
-    discountedPremium = basePremium;
+    this.discountedPremium = basePremium;
     if (numPolicies == 2) {
-      discountedPremium -= (int) (0.1 * (double) basePremium);
+      discountedPremium = (int) ((double) basePremium - 0.1 * (double) basePremium);
     } else if (numPolicies >= 3) {
-      discountedPremium -= (int) (0.2 * (double) basePremium);
+      discountedPremium = (int) ((double) basePremium - 0.2 * (double) basePremium);
     }
   }
 

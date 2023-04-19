@@ -1,6 +1,6 @@
 // AUTHOR: Tony Lim
 // DATE STARTED: 14/03/2023
-// DATE LAST MODIFIED: 17/04/2023
+// DATE LAST MODIFIED: 19/04/2023
 
 package nz.ac.auckland.se281;
 
@@ -121,7 +121,9 @@ public class InsuranceSystem {
 
     // If the userName is in the database, load the profile. Otherwise return an error message.
     if (!isUserNameUnique(formattedUserName)) {
-      unloadProfile();
+      if (isAnyProfileLoaded()) {
+        unloadProfile();
+      }
       getProfileGivenUserName(formattedUserName).setIsLoading(true);
       MessageCli.PROFILE_LOADED.printMessage(formattedUserName);
     } else {
@@ -129,7 +131,6 @@ public class InsuranceSystem {
     }
   }
 
-  // FIX: remove 'no profile loaded' message displayed if there is no profile before loaded
   public void unloadProfile() {
     if (!isAnyProfileLoaded()) {
       MessageCli.NO_PROFILE_LOADED.printMessage();
@@ -142,9 +143,11 @@ public class InsuranceSystem {
   public void deleteProfile(String userName) {
     String formattedUserName = formatUserName(userName);
 
-    // If the userName is in the database, the profile is not loading, delete the profile.
+    // If the userName is in the database and the profile is not currently loading, delete the
+    // profile.
     if (!isUserNameUnique(formattedUserName)) {
       if (getProfileGivenUserName(formattedUserName).getIsLoading()) {
+        // Cannot delete profile while it is currently loaded
         MessageCli.CANNOT_DELETE_PROFILE_WHILE_LOADED.printMessage(formattedUserName);
       } else {
         database.remove(getProfileGivenUserName(formattedUserName));
@@ -156,22 +159,27 @@ public class InsuranceSystem {
   }
 
   public void createPolicy(PolicyType type, String[] options) {
+    // Make sure there is a profile loaded to create a policy for
     if (!isAnyProfileLoaded()) {
       MessageCli.NO_PROFILE_FOUND_TO_CREATE_POLICY.printMessage();
     } else {
+      // Getting variables from respective classes
       int sumInsured = Integer.parseInt(options[0]);
       int loadedProfileAge = getLoadedProfile().getAge();
       String loadedProfileUserName = getLoadedProfile().getUserName();
 
       switch (type) {
         case HOME:
+          // Preliminary
           boolean isRental = false;
           if (options[2].contains("y")) {
             isRental = true;
           }
 
           HomePolicy newHomePolicy = new HomePolicy(sumInsured, options[1], isRental);
-          getLoadedProfile().addPolicy(newHomePolicy);
+          getLoadedProfile()
+              .addPolicy(
+                  newHomePolicy); // Add the home policy to the loaded profile's policy arraylist
           MessageCli.NEW_POLICY_CREATED.printMessage("home", loadedProfileUserName);
           break;
 
@@ -183,19 +191,27 @@ public class InsuranceSystem {
 
           CarPolicy newCarPolicy =
               new CarPolicy(sumInsured, options[1], options[2], isBrokenDown, loadedProfileAge);
-          getLoadedProfile().addPolicy(newCarPolicy);
+          getLoadedProfile()
+              .addPolicy(
+                  newCarPolicy); // Add the car policy to the loaded profile's policy arraylist
           MessageCli.NEW_POLICY_CREATED.printMessage("car", loadedProfileUserName);
           break;
 
         case LIFE:
+          // Check if profile is over age (> 100 years old)
           if (loadedProfileAge > 100) {
             MessageCli.OVER_AGE_LIMIT_LIFE_POLICY.printMessage(loadedProfileUserName);
+            // Check if profile already has life policy by checking boolean value
           } else if (getLoadedProfile().getHasLifePolicy()) {
             MessageCli.ALREADY_HAS_LIFE_POLICY.printMessage(loadedProfileUserName);
           } else {
             LifePolicy newLifePolicy = new LifePolicy(sumInsured, loadedProfileAge);
-            getLoadedProfile().addPolicy(newLifePolicy);
-            getLoadedProfile().setHasLifePolicy();
+            getLoadedProfile()
+                .addPolicy(
+                    newLifePolicy); // Add the life policy to the loaded profile's policy arraylist
+            getLoadedProfile()
+                .setHasLifePolicy(); // This profile now has life policy, so mark it down by
+                                     // changing a boolean value to 'true'
             MessageCli.NEW_POLICY_CREATED.printMessage("life", loadedProfileUserName);
             break;
           }
@@ -260,6 +276,8 @@ public class InsuranceSystem {
     return null;
   }
 
+  // For 0 or > 1 policies, return 'ies' to append to 'polic' in string message. 
+  // For 1 policy, return 'y' to append to 'polic' in string message.
   public String getArguementBasedOnNumProfiles(int index) {
     if (database.get(index).getNumPolicies() == 0 || database.get(index).getNumPolicies() > 1) {
       return "ies";
