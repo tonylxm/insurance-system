@@ -1,5 +1,11 @@
+// AUTHOR: Tony Lim
+// DATE STARTED: 16/04/2023
+// DATE LAST MODIFIED: 21/04/2023
+
 package nz.ac.auckland.se281;
 
+// Constructor - instance field protected so that only classes that inherit from Policy.java (i.e.
+// policy types classes) can access and modify
 public abstract class Policy {
   protected int sumInsured;
   protected int basePremium;

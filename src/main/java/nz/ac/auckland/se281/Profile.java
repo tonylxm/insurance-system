@@ -1,3 +1,7 @@
+// AUTHOR: Tony Lim
+// DATE STARTED: 14/03/2023
+// DATE LAST MODIFIED: 21/04/2023
+
 package nz.ac.auckland.se281;
 
 import java.util.ArrayList;
@@ -99,7 +103,7 @@ public class Profile {
     // calculate the total amount to pay by adding up all the discounted premiums on all policies
     // for that account
     totalToPay = 0;
-    
+
     for (Policy policy : policyDatabase) {
       totalToPay += policy.getDiscountedPremium();
     }
