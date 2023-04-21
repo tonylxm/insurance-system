@@ -14,7 +14,9 @@ public class CarPolicy extends Policy {
     this.makeAndModel = makeAndModel;
     this.licensePlate = licensePlate;
 
-    // calculate basePremium based on client's age
+    // Calculate basePremium based on client's age:
+    // - If they are under 25, basePremium = 15% of sumInsured
+    // - If they are 25 and over, basePremium = 10% of sumInsured
     if (loadedProfileAge < 25) {
       basePremium = (int) (0.15 * (double) sumInsured);
     } else if (loadedProfileAge >= 25) {

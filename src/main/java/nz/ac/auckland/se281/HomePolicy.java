@@ -7,7 +7,9 @@ public class HomePolicy extends Policy {
     super(sumInsured);
     this.address = address;
 
-    // calculates basePremium depending on whether the house is a rental or not
+    // calculates basePremium depending on whether the house is a rental or not:
+    // - If a rental, basePremium = 2% of sumInsured
+    // - If not a rental, basePremium = 1% of sumInsured
     if (isRental) {
       basePremium = (int) (0.02 * (double) sumInsured);
     } else {

@@ -5,7 +5,8 @@ public class LifePolicy extends Policy {
   public LifePolicy(int sumInsured, int loadedProfileAge) {
     super(sumInsured);
 
-    // calculate basePremium based on client's age
+    // calculate basePremium based on client's age:
+    // basePremium = (1 + age/100)% of sumInsured
     basePremium = (int) (((1 + (0.01 * (double) loadedProfileAge)) / 100) * sumInsured);
   }
 

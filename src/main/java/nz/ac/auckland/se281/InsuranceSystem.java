@@ -1,6 +1,6 @@
 // AUTHOR: Tony Lim
 // DATE STARTED: 14/03/2023
-// DATE LAST MODIFIED: 19/04/2023
+// DATE LAST MODIFIED: 21/04/2023
 
 package nz.ac.auckland.se281;
 
@@ -211,7 +211,7 @@ public class InsuranceSystem {
                     newLifePolicy); // Add the life policy to the loaded profile's policy arraylist
             getLoadedProfile()
                 .setHasLifePolicy(); // This profile now has life policy, so mark it down by
-                                     // changing a boolean value to 'true'
+            // changing a boolean value to 'true'
             MessageCli.NEW_POLICY_CREATED.printMessage("life", loadedProfileUserName);
             break;
           }
@@ -276,7 +276,7 @@ public class InsuranceSystem {
     return null;
   }
 
-  // For 0 or > 1 policies, return 'ies' to append to 'polic' in string message. 
+  // For 0 or > 1 policies, return 'ies' to append to 'polic' in string message.
   // For 1 policy, return 'y' to append to 'polic' in string message.
   public String getArguementBasedOnNumProfiles(int index) {
     if (database.get(index).getNumPolicies() == 0 || database.get(index).getNumPolicies() > 1) {
