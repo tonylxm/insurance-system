@@ -36,5 +36,7 @@ public abstract class Policy {
     }
   }
 
+  // Abstract method so classes that inherit this class (types of policies) must override this
+  // method
   public abstract void printPolicyDetails();
 }

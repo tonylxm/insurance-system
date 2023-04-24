@@ -1,6 +1,6 @@
 // AUTHOR: Tony Lim
 // DATE STARTED: 16/04/2023
-// DATE LAST MODIFIED: 21/04/2023
+// DATE LAST MODIFIED: 24/04/2023
 
 package nz.ac.auckland.se281;
 
@@ -15,9 +15,9 @@ public class LifePolicy extends Policy {
     basePremium = (int) (((1 + (0.01 * (double) loadedProfileAge)) / 100) * sumInsured);
   }
 
+  @Override
   // Since different policies have different details and different amount of details to print,
   // override the abstract method printPolicyDetails()
-  @Override
   public void printPolicyDetails() {
     System.out.println(
         "Life Policy (Sum Insured: $"
