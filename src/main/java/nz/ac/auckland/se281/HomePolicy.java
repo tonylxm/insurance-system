@@ -7,7 +7,7 @@ package nz.ac.auckland.se281;
 public class HomePolicy extends Policy {
   private String address;
 
-  // Constructor
+  // Constructor method
   public HomePolicy(int sumInsured, String address, boolean isRental) {
     super(sumInsured);
     this.address = address;

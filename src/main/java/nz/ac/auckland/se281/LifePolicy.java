@@ -6,7 +6,7 @@ package nz.ac.auckland.se281;
 
 public class LifePolicy extends Policy {
 
-  // Constructor
+  // Constructor method
   public LifePolicy(int sumInsured, int loadedProfileAge) {
     super(sumInsured);
 

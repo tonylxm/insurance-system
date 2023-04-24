@@ -8,7 +8,7 @@ public class CarPolicy extends Policy {
   private String makeAndModel;
   private String licensePlate;
 
-  // Constructor
+  // Constructor method
   public CarPolicy(
       int sumInsured,
       String makeAndModel,
