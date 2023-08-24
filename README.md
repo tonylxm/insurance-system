@@ -1,4 +1,4 @@
-# Insurance System and Database
+# Insurance System Database
 Project for SOFTENG 281 (Object-Oriented Programming) in Part II of my Software Engineering degree @The University of Auckland.
 I scored 100% for this project (functionality + OO design + codestyle).
 
