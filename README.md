@@ -19,7 +19,7 @@ I scored 100% for this project (functionality + OO design + codestyle).
 Try it out for yourself!
 Clone the repository using git and open the project in your preferred Java IDE:
   ```
-    git clone https://github.com/your-username/graph-algorithms.git
+    git clone https://github.com/your-username/insurance-system.git
   ```
 
 ## Personal Learnings
